@@ -15,14 +15,14 @@ table, th, td { border: 1px solid black; text-align: left; }
 				{
 					engHire = true;
 					document.getElementById("ensignDiv").style.display = "block";
-					total = total - 200;
+					total = total - 250;
 					updateCost();
 				}
 				else
 				{
 					engHire = false;
 					document.getElementById("ensignDiv").style.display = "none";
-					total = total + 200;
+					total = total + 250;
 					updateCost();
 				}
 			}
@@ -65,7 +65,7 @@ table, th, td { border: 1px solid black; text-align: left; }
 				var sum = 0;
 				var myTable = document.getElementById('rosterTable');
 				
-				for(i = 1; i <= 8; i++)
+				for(i = 1; i <= 10; i++)
 				{
 					sum = sum + parseInt(myTable.rows[i].cells[7].innerHTML);
 				}
@@ -275,7 +275,7 @@ table, th, td { border: 1px solid black; text-align: left; }
                         </tr>
 
 </table>
-Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()">200gc<br>
+Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()">250gc<br>
 <div id="ensignDiv" style='display: none'>
 <table id="ensignTable">
 <tr>
