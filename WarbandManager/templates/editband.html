@@ -83,7 +83,11 @@ table, th, td { border: 1px solid black; text-align: left; }
 				
         capweapselval = document.getElementById("capweapsel").options[document.getElementById("capweapsel").selectedIndex].value;
 
-        if (capweapselval != 'Empty') { sum += weapcosts[capweapselval]; }				
+        if (capweapselval != 'Empty') { sum += weapcosts[capweapselval]; }
+
+        ensweapselval = document.getElementById("ensweapsel").options[document.getElementById("ensweapsel").selectedIndex].value;
+
+        if (ensweapselval != 'Empty') { sum += weapcosts[ensweapselval]; }				
 				
 				remainingGold.innerHTML = total - sum ;
 			}
@@ -444,7 +448,7 @@ Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if
   					</select>
 </td>
                                 <td>
-<select id="ensweapsel">
+<select id="ensweapsel" onchange="updateCost()">
                                                 <option value="Empty">Select...</option>
                                                 {% for weap in weaps %}
                                                 {% if weap in band['Ensign']['Items'] %}
