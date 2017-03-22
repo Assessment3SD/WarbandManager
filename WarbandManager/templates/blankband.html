@@ -8,6 +8,11 @@ table, th, td { border: 1px solid black; text-align: left; }
 <script type="text/javascript">
   var total = 500;
   var engHire = false;
+
+  var weapcosts = [];
+  {% for weapon, cost in weapcosts.iteritems() %}
+  weapcosts['{{weapon}}'] = {{cost}};
+  {% endfor %}
  
   function hireEng()
 			{
@@ -69,8 +74,10 @@ table, th, td { border: 1px solid black; text-align: left; }
 				{
 					sum = sum + parseInt(myTable.rows[i].cells[7].innerHTML);
 				}
-				
-				
+
+        capweapselval = document.getElementById("capweapsel").options[document.getElementById("capweapsel").selectedIndex].value;
+
+        if (capweapselval != 'Empty') { sum += weapcosts[capweapselval]; }
 				
 				remainingGold.innerHTML = total - sum ;
 			}
@@ -263,7 +270,7 @@ table, th, td { border: 1px solid black; text-align: left; }
                                                 {% endfor %}
                                         </select></td>
                                 <td>
-<select id="capweapsel">
+<select id="capweapsel" onchange="updateCost()">
                                                 <option value="Empty">Select...</option>
                                                 {% for weap in weaps %}
 
