@@ -48,7 +48,7 @@ def validate_band(oldband,newband):
 @app.route('/new', methods=['GET','POST'])
 def new_warband():
     if request.method == 'GET':
-       return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.OK
+       return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost), httpcodes.OK
     if request.method == 'POST':
        bandname = request.form['bandname']
        capspec = request.form['capspec']
@@ -99,7 +99,7 @@ def edit_given_warband(band):
 
     loadedband = pickle.load(open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),band), "rb"))
     if request.method == 'GET':
-       return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.OK
+       return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost), httpcodes.OK
     if request.method == 'POST':
        
        bandname = request.form['bandname']
