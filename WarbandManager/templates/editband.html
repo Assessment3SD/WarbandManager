@@ -6,7 +6,7 @@
 table, th, td { border: 1px solid black; text-align: left; }
 </style>
 <script type="text/javascript">
-  var total = {{ band['Treasury'] }};
+  var total = 500; //{{ band['Treasury'] }};
   {% if 'Ensign' in band.keys():  %}
   var engHire = true;
   var hadEnsign = true;
@@ -26,14 +26,14 @@ table, th, td { border: 1px solid black; text-align: left; }
 				{
 					engHire = true;
 					document.getElementById("ensignDiv").style.display = "block";
-					total = total - 200;
+					//total = total - 250;
 					updateCost();
 				}
 				else
 				{
 					engHire = false;
 					document.getElementById("ensignDiv").style.display = "none";
-					total = total + 200;
+					//total = total + 250;
 					updateCost();
 				}
 			}
@@ -87,7 +87,12 @@ table, th, td { border: 1px solid black; text-align: left; }
 
         ensweapselval = document.getElementById("ensweapsel").options[document.getElementById("ensweapsel").selectedIndex].value;
 
-        if (ensweapselval != 'Empty') { sum += weapcosts[ensweapselval]; }				
+        if (ensweapselval != 'Empty') { sum += weapcosts[ensweapselval]; }	
+
+				if(engHire)
+				{
+					sum += 250;
+				}
 				
 				remainingGold.innerHTML = total - sum ;
 			}
@@ -405,7 +410,7 @@ table, th, td { border: 1px solid black; text-align: left; }
                         </tr>
 
 </table>
-Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if 'Ensign' in band.keys() %} checked {%endif%}>200gc<br>
+Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if 'Ensign' in band.keys() %} checked {%endif%}>250gc<br>
  {% if 'Ensign' in band.keys() %} 
 <div id="ensignDiv" style='display: block'>
 
@@ -495,7 +500,7 @@ Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if
                                         </select>
 </td>
                                 <td>
-<select id="ensweapsel">
+<select id="ensweapsel" onchange="updateCost()">
                                                 <option value="Empty">Select...</option>
                                                 {% for weap in weaps %}
 
@@ -573,6 +578,9 @@ Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if
 </table>
 <input id="creator" type="button" value="Create Warband" onclick="doFormSubmit();" />
 <input id="clear" type="button" value="Reset" onclick="window.location.href='/new'" />
+<script type="text/javascript">
+updateCost();
+</script>
 </body>
 </html>
 
