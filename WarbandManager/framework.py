@@ -82,6 +82,21 @@ def new_warband():
        pickle.dump(createdband, open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),bandname), "wb"))   
        return render_template('blankband.html', specs = app.specialisms, skills = app.skillsets, people=app.troops, wizard=app.wizard, apprentice=app.apprentice),httpcodes.CREATED
 
+@app.route('/addcurrency/<band>', methods=['POST'])
+def addcurrency(band):
+	amount = request.form['currencyAdd']
+	loadedband = pickle.load(open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),band), "rb"))
+	increased_treasury = 0
+	try:
+		increased_treasury += loadedband['IncreasedTreasury']
+	except Exception:
+		pass
+	
+	if amount.isdigit():
+	   increased_treasury += int(amount)
+	loadedband['IncreasedTreasury'] = increased_treasury
+	pickle.dump(loadedband, open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),band), "wb"))
+	return redirect('edit/' + band)
 
 @app.route('/edit', methods=['GET'])
 def edit_warband():
@@ -98,8 +113,16 @@ def edit_warband():
 def edit_given_warband(band):
 
     loadedband = pickle.load(open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),band), "rb"))
+    increased_treasury = 0
+    try:
+       increased_treasury = loadedband['IncreasedTreasury']
+    except Exception:
+       pass
+    treasury = 500 + increased_treasury
+
     if request.method == 'GET':
-       return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost), httpcodes.OK
+       return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost, treasury = treasury), httpcodes.OK
+
     if request.method == 'POST':
        
        bandname = request.form['bandname']
@@ -157,13 +180,13 @@ def edit_given_warband(band):
            if item != "Empty":
               createdband['Troops'].append(item)
        if len(createdband['Troops']) > 9 :
-           return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.OK
+           return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost, treasury = treasury), httpcodes.OK
        if validate_band(loadedband,createdband):
            createdband['Treasury'] = 500 - sumband(createdband)
            pickle.dump(createdband, open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),bandname), "wb"))
-           return render_template('editband.html', band=createdband, people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon),httpcodes.OK
+           return render_template('editband.html', band=createdband, people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost, treasury = treasury),httpcodes.OK
        else:
-           return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.BAD_REQUEST
+           return render_template('editband.html', band=loadedband,  people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost, treasury = treasury), httpcodes.BAD_REQUEST
 
 @app.route('/delete/<band>', methods=['GET'])
 def delete_given_warband(band):

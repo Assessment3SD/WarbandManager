@@ -6,7 +6,7 @@
 table, th, td { border: 1px solid black; text-align: left; }
 </style>
 <script type="text/javascript">
-  var total = 500; //{{ band['Treasury'] }};
+  var total = {{ treasury }};
   {% if 'Ensign' in band.keys():  %}
   var engHire = true;
   var hadEnsign = true;
@@ -351,6 +351,14 @@ table, th, td { border: 1px solid black; text-align: left; }
 <td><h3>Currency remaining: </h3></td>
                                 <td id='remainingGold'>{{ band['Treasury'] }}</td>
                         </tr>
+                        <tr>
+<td><h3>Add currency: </h3></td>
+                                <td>
+					<form method="post" action="/addcurrency/{{ band['Name'] }}" />
+					<input type="text" name="currencyAdd" />
+					<input type="submit" value="Add" />
+				</td>
+                        </tr>
                 </table>
 <table id="wizardTable">
 <tr>
@@ -576,7 +584,7 @@ Hire apprentice? <input type="checkbox" name="appHire" onClick="hireEng()" {% if
                         </tr>
 {% endfor %}
 </table>
-<input id="creator" type="button" value="Create Warband" onclick="doFormSubmit();" />
+<input id="creator" type="button" value="Edit Warband" onclick="doFormSubmit();" />
 <input id="clear" type="button" value="Reset" onclick="window.location.href='/new'" />
 <script type="text/javascript">
 updateCost();
