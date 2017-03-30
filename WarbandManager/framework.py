@@ -75,12 +75,12 @@ def new_warband():
            if item != "Empty":
                createdband['Troops'].append(item)
        if len(createdband['Troops']) > 9 :
-           return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.BAD_REQUEST
+           return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost), httpcodes.BAD_REQUEST
        createdband['Treasury'] = 500 - sumband(createdband)
        if createdband['Treasury'] < 0:
-          return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon), httpcodes.BAD_REQUEST
+          return render_template('blankband.html', people=app.troops, wizard=app.wizard, apprentice=app.apprentice, specs = app.specialisms, skills = app.skillsets, weaps = app.weapon, weapcosts = app.cost), httpcodes.BAD_REQUEST
        pickle.dump(createdband, open(os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), "bands"),bandname), "wb"))   
-       return render_template('blankband.html', specs = app.specialisms, skills = app.skillsets, people=app.troops, wizard=app.wizard, apprentice=app.apprentice),httpcodes.CREATED
+       return render_template('blankband.html', specs = app.specialisms, skills = app.skillsets, people=app.troops, wizard=app.wizard, apprentice=app.apprentice, weapcosts = app.cost),httpcodes.CREATED
 
 @app.route('/addcurrency/<band>', methods=['POST'])
 def addcurrency(band):
